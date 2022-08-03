@@ -2,47 +2,49 @@
 
 from tkinter import *
 from time import *
+from playsound import playsound
 
-hours = 0
-minutes = 0
-seconds = 0
-hundreds = 0
-time_circle = 2
-circle_time_lable = []
-run_time = False
+HOURS = 0
+MINUTES = 0
+SECONDS = 0
+HUNDREDS = 0
+TIME_CIRCLE = 2
+CIRCLE_TIME_LABEL = []
+RUN_TIME = False
 
 def update():
 
     
-    global hours, minutes, seconds, hundreds, run_time
+    global HOURS, MINUTES, SECONDS, HUNDREDS, RUN_TIME
 
-    hundreds += 1
+    HUNDREDS += 1
 
-    if hundreds == 10:
-        seconds += 1
-        hundreds = 0
+    if HUNDREDS == 10:
+        SECONDS += 1
+        HUNDREDS = 0
 
-    if seconds == 60:
-        minutes += 1
-        seconds = 0
+    if SECONDS == 60:
+        MINUTES += 1
+        SECONDS = 0
 
-    if minutes == 60:
-        hours += 1
-        minutes = 0
+    if MINUTES == 60:
+        HOURS += 1
+        MINUTES = 0
 
-    if hours == 24:
-        hours = 0
+    if HOURS == 24:
+        HOURS = 0
 
-    time_lable.config(text=f'{hours:02}:{minutes:02}:{seconds:02}.{hundreds:1}')
+    time_lable.config(text=f'{HOURS:02}:{MINUTES:02}:{SECONDS:02}.{HUNDREDS:1}')
 
-    if run_time == True:
+    if RUN_TIME == True:
         update_time = time_lable.after(100, update)
 
 
 def start():
-    global run_time
-    run_time = True
+    global RUN_TIME
+    RUN_TIME = True
 
+    playsound('/home/zule/Python_learning/Done Projects/Stopwatch/Start.mp3')
     start_button.config(text="Stop", command=stop)
     reset_button.config(state=DISABLED)
     circle_button.config(state=NORMAL)
@@ -51,34 +53,35 @@ def start():
     
 
 def stop():
-    global run_time
-    run_time = False
 
+    global RUN_TIME
+    RUN_TIME = False
     start_button.config(text="Start", command=start)
     reset_button.config(state=NORMAL)
     reset_all_button.config(state=NORMAL)
     circle_button.config(state=DISABLED)
+    playsound('/home/zule/Python_learning/Done Projects/Stopwatch/Stop.mp3')
 
 
 def circle():
-    global hours, minutes, seconds, hundreds, time_circle, circle_time_lable
+    global HOURS, MINUTES, SECONDS, HUNDREDS, TIME_CIRCLE, CIRCLE_TIME_LABEL
     
-    if time_circle == 7:
-        time_circle = 2
+    if TIME_CIRCLE == 7:
+        TIME_CIRCLE = 2
 
-    circle_time_lable_member = Label(counter_frame, font=("Arial", 30), text=f'{hours:02}:{minutes:02}:{seconds:02}.{hundreds:1}')
-    circle_time_lable.append(circle_time_lable)
+    CIRCLE_TIME_LABEL_member = Label(counter_frame, font=("Arial", 30), text=f'{HOURS:02}:{MINUTES:02}:{SECONDS:02}.{HUNDREDS:1}')
+    CIRCLE_TIME_LABEL.append(CIRCLE_TIME_LABEL)
 
-    circle_time_lable_member.grid(row=time_circle, column=0, columnspan=4)
+    CIRCLE_TIME_LABEL_member.grid(row=TIME_CIRCLE, column=0, columnspan=4)
     
-    time_circle += 1
+    TIME_CIRCLE += 1
 
 
 def reset():
-    global hours, minutes, seconds, hundreds
-    hours, minutes, seconds, hundreds = 0, 0, 0, 0
+    global HOURS, MINUTES, SECONDS, HUNDREDS
+    HOURS, MINUTES, SECONDS, HUNDREDS = 0, 0, 0, 0
 
-    time_lable.config(text=f'{hours:02}:{minutes:02}:{seconds:02}.{hundreds:1}')
+    time_lable.config(text=f'{HOURS:02}:{MINUTES:02}:{SECONDS:02}.{HUNDREDS:1}')
 
 def reset_all():
     global counter_frame
@@ -98,8 +101,10 @@ def reset_all():
 main_window = Tk()
 main_window.title("Stopwatch")
 
+
 counter_frame = Frame(main_window, bd=5, relief=RAISED)
 counter_frame.pack()
+
 
 time_lable = Label(counter_frame, font=("Arial", 30), text="00:00:00.0")
 start_button = Button(counter_frame, font=("Arial", 14), text="Start", command=start)
@@ -117,3 +122,10 @@ reset_all_button.grid(row=1, column=3)
 
 
 main_window.mainloop()
+
+
+#TO DO
+#Add File menu
+#Add key bindings
+#Add save posiblility
+#Create exe
